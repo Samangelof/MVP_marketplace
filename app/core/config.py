@@ -1,15 +1,9 @@
-from pydantic import BaseSettings
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
-class Settings(BaseSettings):
-    db_username: str
-    db_password: str
-    db_host: str
-    db_name: str
-
-settings = Settings(
-    db_username="Markovka",
-    db_password="&B-!r6e=iTPftbg",
-    db_host="localhost",
-    db_name="mvp_marketplace"
-)
+DB_USER = os.environ.get("DB_USER")
+DB_PASS = os.environ.get("DB_PASS")
+DB_NAME = os.environ.get("DB_NAME")
+DB_HOST = os.environ.get("DB_HOST")

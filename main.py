@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from app.db.session import SessionLocal
-from app.api.models import Item
+from sqlalchemy.sql import text
+from fastapi.encoders import jsonable_encoder
 
 app = FastAPI()
 
@@ -15,6 +16,7 @@ def get_db():
 
 @app.get("/test/db")
 def test_db_connection(db: Session = Depends(get_db)):
-    # Получаем все элементы из таблицы Item в базе данных
-    items = db.query(Item).all()
-    return {"message": "Подключение к базе данных успешно", "items": items}
+    result = db.execute(text("SELECT * FROM country")).fetchall()
+
+    formatted_result = [list(row) for row in result]
+    return jsonable_encoder(formatted_result)
